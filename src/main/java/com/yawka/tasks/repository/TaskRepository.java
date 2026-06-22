@@ -2,6 +2,7 @@ package com.yawka.tasks.repository;
 
 import com.yawka.tasks.entity.TaskEntity;
 import com.yawka.tasks.entity.TaskStatus;
+import com.yawka.tasks.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
-    List<TaskEntity> findByStatus(TaskStatus status);
+    List<TaskEntity> findByUser(UserEntity user);
 }
