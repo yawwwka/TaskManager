@@ -4,7 +4,6 @@ import com.yawka.tasks.dto.*;
 import com.yawka.tasks.entity.UserEntity;
 import com.yawka.tasks.exception.InvalidPasswordException;
 import com.yawka.tasks.exception.InvalidTokenException;
-import com.yawka.tasks.exception.UserNotFoundException;
 import com.yawka.tasks.exception.UsernameAlreadyExistsException;
 import com.yawka.tasks.mapper.UserMapper;
 import com.yawka.tasks.repository.UserRepository;

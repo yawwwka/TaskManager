@@ -2,7 +2,6 @@ package com.yawka.tasks.controller;
 
 import com.yawka.tasks.dto.TaskCreateDto;
 import com.yawka.tasks.dto.TaskResponseDto;
-import com.yawka.tasks.entity.TaskStatus;
 import com.yawka.tasks.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

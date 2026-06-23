@@ -1,7 +1,6 @@
 package com.yawka.tasks.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.boot.web.error.ErrorPageRegistrar;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
