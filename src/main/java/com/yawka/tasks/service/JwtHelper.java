@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,14 @@ public class JwtHelper {
 
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
+    }
+
+    public String extractType(String token) {
+        return extractAllClaims(token).get("type", String.class);
+    }
+
+    public String extractTokenId(String token) {
+        return extractAllClaims(token).get("tokenId", String.class);
     }
 
     public Claims extractAllClaims(String token) {
@@ -35,6 +44,14 @@ public class JwtHelper {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public boolean isTokenExpired(String token) {
+        try {
+            return extractAllClaims(token).getExpiration().before(new Date());
+        } catch (Exception e) {
+            return true;
         }
     }
 

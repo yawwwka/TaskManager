@@ -1,9 +1,6 @@
 package com.yawka.tasks.controller;
 
-import com.yawka.tasks.dto.AuthRequest;
-import com.yawka.tasks.dto.AuthResponse;
-import com.yawka.tasks.dto.RegisterRequest;
-import com.yawka.tasks.dto.UserResponseDto;
+import com.yawka.tasks.dto.*;
 import com.yawka.tasks.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +27,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
         return ResponseEntity.ok(authService.login(authRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshResponse> refresh(@Valid @RequestBody RefreshRequest request) {
+        return ResponseEntity.ok(authService.refresh(request));
     }
 }

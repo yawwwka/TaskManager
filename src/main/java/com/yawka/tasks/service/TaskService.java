@@ -24,10 +24,11 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final UserRepository userRepository;
+    private final UserHelper userHelper;
+
 
     public List<TaskResponseDto> getAllTasks(String username) {
-        UserEntity userEntity = getUserByUsername(username);
+        UserEntity userEntity = userHelper.getUserByUsername(username);
 
         return taskRepository.findByUser(userEntity).stream()
                 .map(taskMapper::toDto)
@@ -35,7 +36,7 @@ public class TaskService {
     }
 
     public TaskResponseDto createTask(TaskCreateDto taskCreateDto, String username) {
-        UserEntity userEntity = getUserByUsername(username);
+        UserEntity userEntity = userHelper.getUserByUsername(username);
 
         TaskEntity taskEntity = taskMapper.toEntity(taskCreateDto);
         taskEntity.setUser(userEntity);
@@ -45,15 +46,15 @@ public class TaskService {
     }
 
     public TaskResponseDto getTaskById(Long id, String username) {
-        UserEntity userEntity = getUserByUsername(username);
-        TaskEntity taskEntity = getTaskByIdAndUser(id, userEntity);
+        UserEntity userEntity = userHelper.getUserByUsername(username);
+        TaskEntity taskEntity = userHelper.getTaskByIdAndUser(id, userEntity);
 
         return taskMapper.toDto(taskEntity);
     }
 
     public TaskResponseDto updateTaskById(Long id, TaskCreateDto updateDto, String username) {
-        UserEntity userEntity = getUserByUsername(username);
-        TaskEntity existingTask = getTaskByIdAndUser(id, userEntity);
+        UserEntity userEntity = userHelper.getUserByUsername(username);
+        TaskEntity existingTask = userHelper.getTaskByIdAndUser(id, userEntity);
 
         existingTask.setTitle(updateDto.getTitle());
         existingTask.setDescription(updateDto.getDescription());
@@ -64,24 +65,8 @@ public class TaskService {
     }
 
     public void deleteTaskById(Long id, String username) {
-        UserEntity userEntity = getUserByUsername(username);
-        TaskEntity taskEntity = getTaskByIdAndUser(id, userEntity);
+        UserEntity userEntity = userHelper.getUserByUsername(username);
+        TaskEntity taskEntity = userHelper.getTaskByIdAndUser(id, userEntity);
         taskRepository.delete(taskEntity);
-    }
-
-    private UserEntity getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
-    }
-
-    private TaskEntity getTaskByIdAndUser(Long id, UserEntity user) {
-        TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id));
-
-        if (!task.getUser().getId().equals(user.getId())) {
-            throw new InvalidPermission("You don't have permission to access this task");
-        }
-
-        return task;
     }
 }
