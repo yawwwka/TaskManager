@@ -3,22 +3,16 @@ package com.yawka.tasks.service;
 import com.yawka.tasks.dto.TaskCreateDto;
 import com.yawka.tasks.dto.TaskResponseDto;
 import com.yawka.tasks.entity.UserEntity;
-import com.yawka.tasks.exception.InvalidPermission;
-import com.yawka.tasks.exception.UserNotFoundException;
 import com.yawka.tasks.mapper.TaskMapper;
 import com.yawka.tasks.repository.TaskRepository;
 import com.yawka.tasks.entity.TaskEntity;
-import com.yawka.tasks.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TaskService {
 
@@ -37,7 +31,6 @@ public class TaskService {
 
     public TaskResponseDto createTask(TaskCreateDto taskCreateDto, String username) {
         UserEntity userEntity = userHelper.getUserByUsername(username);
-
         TaskEntity taskEntity = taskMapper.toEntity(taskCreateDto);
         taskEntity.setUser(userEntity);
         TaskEntity saved = taskRepository.save(taskEntity);

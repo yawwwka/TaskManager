@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class TaskEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", nullable = false)
